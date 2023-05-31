@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 330585543}
   movementSpeed: 5
-  rotateSpeed: 3
+  rotateSpeed: 2
 --- !u!54 &1860107623
 Rigidbody:
   m_ObjectHideFlags: 0
