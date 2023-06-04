@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
         /*        Vector3 rotY = new Vector3(0, mouseX * rotateSpeed, 0);
                 transform.Rotate(rotY);*/
 
-        mouseY -= Input.GetAxis("Mouse Y");
-        cam.transform.rotation = Quaternion.Euler(new Vector3(mouseX * movementSpeed, 0, 0));
+        mouseY = Input.GetAxis("Mouse Y");
+        cam.transform.Rotate(new Vector3(-mouseY * movementSpeed, 0, 0));
         /*        Vector3 rotX = new Vector3(-mouseY * rotateSpeed, 0, 0);
                 cam.transform.Rotate(rotX);*/
     }
