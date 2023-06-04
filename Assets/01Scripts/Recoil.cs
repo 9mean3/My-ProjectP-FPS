@@ -12,15 +12,21 @@ public class Recoil : MonoBehaviour
 
     [SerializeField] float returnTime;
 
-    // Start is called before the first frame update
-    void Start()
+    Quaternion dir;
+    Quaternion origin;
+    Transform camrot;
+
+    private void Start()
     {
-        
+        camrot = GetComponent<Camera>().transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("¹ß");
+            
+        }
     }
 }
