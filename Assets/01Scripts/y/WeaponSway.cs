@@ -73,6 +73,12 @@ public class WeaponSway : MonoBehaviour
     {
         CalculateSway();
 
+        /*if(Mathf.Abs(transform.parent.parent.GetComponent<PlayerMovement>().Velocity.magnitude) > 0.1f)
+        {
+            transform.localPosition += new Vector3(Mathf.Sin(Time.deltaTime), Mathf.Sin(Time.deltaTime));
+            Debug.Log("move");
+        }*/
+        
         MoveSway();
         TiltSway();
     }

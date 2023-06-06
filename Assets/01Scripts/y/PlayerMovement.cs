@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     
     CharacterController controller;
 
-    Vector3 velocity;
+    public Vector3 velocity;
 
     private void Awake()
     {
@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        Debug.Log(velocity.y);
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
