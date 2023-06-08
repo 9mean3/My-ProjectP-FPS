@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,11 +30,16 @@ public class Gun : MonoBehaviour
     public void raycasttst()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, gun.transform.forward, out hit))
+        if(Physics.Raycast(gun.transform.position, gun.transform.forward, out hit))
         {
             GameObject prefab = Instantiate(effPrefab, hit.point, Quaternion.identity);
             Destroy(prefab, 0.08f);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(gun.transform.position, gun.transform.forward);
     }
 
     IEnumerator FireCrt()
