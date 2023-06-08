@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -354,6 +354,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseSensitivity: 350
   playerBody: {fileID: 968662137}
+--- !u!1 &360400037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 360400038}
+  - component: {fileID: 360400039}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360400038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360400037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1696512365}
+  m_Father: {fileID: 1989203886}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &360400039
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360400037}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 30d50172f2452d44da6f06fa7848c3ed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,10 +568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca730442aad98b4e98729be5c094d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilX: 0
-  recoilY: 0
-  recoilZ: 0
-  returnTime: 0
+  recoilX: -2
+  recoilY: 2
+  recoilZ: 0.35
+  snappiness: 6
+  returnSpeed: 2
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,6 +633,7 @@ GameObject:
   - component: {fileID: 968662137}
   - component: {fileID: 968662136}
   - component: {fileID: 968662138}
+  - component: {fileID: 968662139}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -636,6 +692,61 @@ MonoBehaviour:
   speed: 8
   gravity: -9.8
   velocity: {x: 0, y: 0, z: 0}
+--- !u!114 &968662139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968662135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4773c70b3460a23469ec9b3358f582bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Fire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 563998850}
+        m_TargetAssemblyTypeName: Recoil, Assembly-CSharp
+        m_MethodName: RecoilFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 968662139}
+        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
+        m_MethodName: raycasttst
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 360400039}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: fire
+          m_BoolArgument: 0
+        m_CallState: 2
+  returnTime: 0.1
+  gun: {fileID: 1989203885}
+  effPrefab: {fileID: 1550950755527171427, guid: d626ae758dfead640b0302acbb0e0d04,
+    type: 3}
 --- !u!1 &1102058697
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,7 +849,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1989203886}
+    m_TransformParent: {fileID: 360400038}
     m_Modifications:
     - target: {fileID: 5786097810451525583, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
@@ -753,7 +864,7 @@ PrefabInstance:
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2
+      value: 1.2000002
       objectReference: {fileID: 0}
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
@@ -763,7 +874,7 @@ PrefabInstance:
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2
+      value: 1.2000002
       objectReference: {fileID: 0}
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
@@ -773,12 +884,12 @@ PrefabInstance:
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: -0.25000012
       objectReference: {fileID: 0}
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.4
+      value: 0.4000001
       objectReference: {fileID: 0}
     - target: {fileID: 6559362985659250037, guid: 260ff1508afea5241b6511d8fbe92201,
         type: 3}
@@ -1290,7 +1401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1696512365}
+  - {fileID: 360400038}
   m_Father: {fileID: 330585546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
