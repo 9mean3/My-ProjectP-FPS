@@ -44,11 +44,11 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if(velocity.magnitude > 0.1f)
+/*        if(velocity.magnitude > 0.1f)
         {
             animator.SetBool("isMoving", true);
         }
         else
-            animator.SetBool("isMoving", false);
+            animator.SetBool("isMoving", false);*/
     }
 }
