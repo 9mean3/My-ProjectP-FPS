@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     //public float jumpHeight = 3f;
     public float gravity = -9.8f;
 
+    [SerializeField] private Animator animator;
+
     
     CharacterController controller;
 
@@ -41,5 +43,12 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+        if(velocity.magnitude > 0.1f)
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+            animator.SetBool("isMoving", false);
     }
 }
