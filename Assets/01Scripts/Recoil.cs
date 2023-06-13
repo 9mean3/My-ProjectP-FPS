@@ -9,6 +9,7 @@ public class Recoil : MonoBehaviour
     private Vector3 targetRotation;
 
     [SerializeField] private GameObject gun;
+    [SerializeField] private float gunRecoil;
 
     [SerializeField] private float recoilX;
     [SerializeField] private float recoilY;
@@ -28,7 +29,7 @@ public class Recoil : MonoBehaviour
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.deltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
 
-        gun.transform.localRotation = Quaternion.Euler(currentRotation * 0.5f);
+        gun.transform.localRotation = Quaternion.Euler(currentRotation * gunRecoil);
     }
 
     public void RecoilFire()
