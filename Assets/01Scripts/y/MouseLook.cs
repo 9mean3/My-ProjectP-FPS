@@ -7,6 +7,7 @@ public class MouseLook : MonoBehaviour
     public float MouseSensitivity = 100f;
 
     [SerializeField] Transform playerBody;
+    [SerializeField] Transform cameraBody;
 
     float xRotation = 0f;
 
@@ -25,7 +26,7 @@ public class MouseLook : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -89f, 89);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        cameraBody.localRotation = Quaternion.Euler(xRotation, 0, 0);
         playerBody.Rotate(Vector3.up * mouseX);
     }
 }

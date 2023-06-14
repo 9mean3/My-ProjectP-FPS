@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/WeaponSO")]
 public class WeaponSO : ScriptableObject
 {
-    string Name;
-    GameObject Prefab;
-    float Damage;
-    float ReturnTime;
-    Vector3 RecoilAmount;
+    public string Name;
+    public GameObject Prefab;
+    public int BulletCount;
+    public float Damage;
+    public float ReturnTime;
+    public Vector3 RecoilAmount;
 }

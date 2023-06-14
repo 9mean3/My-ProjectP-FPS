@@ -26,7 +26,7 @@ public class Tilt : MonoBehaviour
     }
 
     float lt = 0;
-    int lr = 0;
+    float lr = 0;
     void Update()
     {
         ChangeTiltState(); Debug.Log(curTiltState.ToString());
@@ -39,7 +39,7 @@ public class Tilt : MonoBehaviour
         if (curTiltState == TiltState.Right)
         {
             lt = Mathf.Lerp(lt, -tiltAmount, tiltTime);
-            lr = 1;
+            lr = 1 * 0.33f;
         }
         if (curTiltState == TiltState.Left)
         {

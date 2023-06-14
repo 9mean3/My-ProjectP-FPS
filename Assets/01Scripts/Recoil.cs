@@ -5,18 +5,18 @@ using Random = UnityEngine.Random;
 
 public class Recoil : MonoBehaviour
 {
-    private Vector3 currentRotation;
-    private Vector3 targetRotation;
+    Vector3 currentRotation;
+    Vector3 targetRotation;
 
-    [SerializeField] private GameObject gun;
-    [SerializeField] private float gunRecoil;
+    [SerializeField] GameObject target;
+    [SerializeField] float gunRecoil;
 
-    [SerializeField] private float recoilX;
-    [SerializeField] private float recoilY;
-    [SerializeField] private float recoilZ;
+    [SerializeField] float recoilX;
+    [SerializeField] float recoilY;
+    [SerializeField] float recoilZ;
 
-    [SerializeField] private float snappiness;
-    [SerializeField] private float returnSpeed;
+    [SerializeField] float snappiness;
+    [SerializeField] float returnSpeed;
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class Recoil : MonoBehaviour
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.deltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
 
-        gun.transform.localRotation = Quaternion.Euler(currentRotation * gunRecoil);
+        target.transform.localRotation = Quaternion.Euler(currentRotation * gunRecoil);
     }
 
     public void RecoilFire()
