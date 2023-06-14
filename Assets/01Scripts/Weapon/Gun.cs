@@ -6,14 +6,13 @@ using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
-    public WeaponSO weaponType;
+    public WeaponPrefab weaponPrefab;
 
     public UnityEvent Fire;
 
     public bool isZoom;
-    public GameObject gun;
-    [SerializeField] float returnTime;
-    [Space]
+    public GameObject gunHolder;
+
     [SerializeField] Vector3 zoomPos;
     [SerializeField] float zoomTime;
     [Space]
@@ -24,17 +23,17 @@ public class Gun : MonoBehaviour
     bool isShooting = false;
     void Start()
     {
-        gunOriginPos = gun.transform.localPosition;
+        gunOriginPos = gunHolder.transform.localPosition;
     }
 
     void Update()
     {
-        if (weaponType.isAuto && Input.GetMouseButton(0) && !isShooting)
+        if (weaponPrefab.WeaponSO.isAuto && Input.GetMouseButton(0) && !isShooting)
         {
             isShooting = true;
             StartCoroutine(FireCrt());
         }
-        if (!weaponType.isAuto && Input.GetMouseButtonDown(0) && !isShooting)
+        if (!weaponPrefab.WeaponSO.isAuto && Input.GetMouseButtonDown(0) && !isShooting)
         {
             isShooting = true;
             StartCoroutine(FireCrt());
@@ -56,18 +55,18 @@ public class Gun : MonoBehaviour
     {
         if (isZoom)
         {
-            gun.transform.localPosition = Vector3.Lerp(gun.transform.localPosition, zoomPos, zoomTime);
+            gunHolder.transform.localPosition = Vector3.Lerp(gunHolder.transform.localPosition, zoomPos, zoomTime);
         }
         else
         {
-            gun.transform.localPosition = Vector3.Slerp(gun.transform.localPosition, gunOriginPos, zoomTime);
+            gunHolder.transform.localPosition = Vector3.Slerp(gunHolder.transform.localPosition, gunOriginPos, zoomTime);
         }
     }
 
     public void raycasttst()
     {
         RaycastHit hit;
-        if (Physics.Raycast(gun.transform.Find(weaponType.Name.ToString() + "/FirePos").position, gun.transform.Find(weaponType.Name.ToString() + "/FirePos").forward, out hit))
+        if (Physics.Raycast(gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").position, gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").forward, out hit))
         {
             GameObject prefab = Instantiate(effPrefab, hit.point, Quaternion.identity);
             Destroy(prefab, 0.08f);
@@ -76,13 +75,13 @@ public class Gun : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(gun.transform.Find(weaponType.Name.ToString() + "/FirePos").position, gun.transform.Find(weaponType.Name.ToString() + "/FirePos").forward);
+        Gizmos.DrawRay(gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").position, gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").forward);
     }
 
     IEnumerator FireCrt()
     {
         Fire.Invoke();
-        yield return new WaitForSeconds(weaponType.ReturnTime);
+        yield return new WaitForSeconds(weaponPrefab.WeaponSO.ReturnTime);
         isShooting = false;
     }
 }

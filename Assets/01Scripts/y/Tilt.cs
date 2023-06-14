@@ -47,7 +47,7 @@ public class Tilt : MonoBehaviour
             lr = -1;
         }
         transform.localEulerAngles = new Vector3(0, 0, lt);
-        gun.gun.transform.localPosition = Vector3.Lerp(gun.gun.transform.localPosition, new Vector3(gunMoveAmount * lr, 0, 0), tiltTime);
+        gun.gunHolder.transform.localPosition = Vector3.Lerp(gun.gunHolder.transform.localPosition, new Vector3(gunMoveAmount * lr, 0, 0), tiltTime);
     }
 
     void ChangeTiltState()
