@@ -9,6 +9,7 @@ public class WeaponSO : ScriptableObject
     public GameObject Prefab;
     public int BulletCount;
     public float Damage;
+    public bool isAuto;
     public float ReturnTime;
     public Vector3 RecoilAmount;
 }

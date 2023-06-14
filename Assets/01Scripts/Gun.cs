@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
+    public WeaponSO weaponType;
+
     public UnityEvent Fire;
 
     public bool isZoom;
@@ -27,7 +29,12 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && !isShooting)
+        if (weaponType.isAuto && Input.GetMouseButton(0) && !isShooting)
+        {
+            isShooting = true;
+            StartCoroutine(FireCrt());
+        }
+        if (!weaponType.isAuto && Input.GetMouseButtonDown(0) && !isShooting)
         {
             isShooting = true;
             StartCoroutine(FireCrt());
@@ -60,7 +67,7 @@ public class Gun : MonoBehaviour
     public void raycasttst()
     {
         RaycastHit hit;
-        if (Physics.Raycast(gun.transform.Find("ak47/FirePos").position, gun.transform.Find("ak47/FirePos").forward, out hit))
+        if (Physics.Raycast(gun.transform.Find(weaponType.Name.ToString() + "/FirePos").position, gun.transform.Find(weaponType.Name.ToString() + "/FirePos").forward, out hit))
         {
             GameObject prefab = Instantiate(effPrefab, hit.point, Quaternion.identity);
             Destroy(prefab, 0.08f);
@@ -69,13 +76,13 @@ public class Gun : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(gun.transform.Find("ak47/FirePos").position, gun.transform.Find("ak47/FirePos").forward);
+        Gizmos.DrawRay(gun.transform.Find(weaponType.Name.ToString() + "/FirePos").position, gun.transform.Find(weaponType.Name.ToString() + "/FirePos").forward);
     }
 
     IEnumerator FireCrt()
     {
         Fire.Invoke();
-        yield return new WaitForSeconds(returnTime);
+        yield return new WaitForSeconds(weaponType.ReturnTime);
         isShooting = false;
     }
 }
