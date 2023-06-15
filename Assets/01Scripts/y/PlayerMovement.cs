@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoving;
     public bool isRunning;
 
+    Gun gun;
+
     private float curSpeed;
     CharacterController controller;
 
@@ -20,13 +22,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        gun = GetComponent<Gun>();
         controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
 
         Move();
     }
@@ -54,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move.normalized * curSpeed * Time.deltaTime);
 
-        Debug.Log(controller.velocity.magnitude);
         CheckMoving();
 
         velocity.y += gravity * Time.deltaTime;

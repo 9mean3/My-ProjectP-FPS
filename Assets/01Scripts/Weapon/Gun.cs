@@ -12,6 +12,7 @@ public class Gun : MonoBehaviour
 
     public bool isZoom;
     public GameObject gunHolder;
+    [SerializeField] GameObject aimObj;
 
     [SerializeField] Vector3 zoomPos;
     [SerializeField] float zoomTime;
@@ -39,6 +40,13 @@ public class Gun : MonoBehaviour
             StartCoroutine(FireCrt());
         }
 
+
+
+        Zooming();
+    }
+
+    void Zooming()
+    {
         if (Input.GetMouseButton(1))
         {
             isZoom = true;
@@ -48,18 +56,13 @@ public class Gun : MonoBehaviour
             isZoom = false;
         }
 
-        Zooming();
-    }
-
-    void Zooming()
-    {
         if (isZoom)
         {
-            gunHolder.transform.localPosition = Vector3.Lerp(gunHolder.transform.localPosition, zoomPos, zoomTime);
+            aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, zoomPos, Time.deltaTime * zoomTime);
         }
         else
         {
-            gunHolder.transform.localPosition = Vector3.Slerp(gunHolder.transform.localPosition, gunOriginPos, zoomTime);
+            aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, gunOriginPos, Time.deltaTime * zoomTime);
         }
     }
 
