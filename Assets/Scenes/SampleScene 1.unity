@@ -21825,8 +21825,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 477627438}
-  tiltAngleAmount: 0
-  tiltPositionAmount: 0
+  duration: 0.5
+  tiltAngleAmount: 15
+  tiltPositionAmount: 1
 --- !u!114 &1722628001
 MonoBehaviour:
   m_ObjectHideFlags: 0

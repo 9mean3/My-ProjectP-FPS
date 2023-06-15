@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 enum TiltState
@@ -13,8 +14,11 @@ public class Tilt : MonoBehaviour
 {
     [SerializeField] Transform target;
 
+    [SerializeField] float duration;
     [SerializeField] float tiltAngleAmount;
     [SerializeField] float tiltPositionAmount;
+
+    float curAngle;
 
     TiltState curTiltState;
 
@@ -29,7 +33,21 @@ public class Tilt : MonoBehaviour
 
         if(curTiltState == TiltState.Idle)
         {
-            target.localPosition = Vector3.zero;
+            curAngle = Mathf.Lerp(curAngle, 0, duration);
+            target.localPosition = Vector3.Lerp(target.localPosition, Vector3.zero, duration);
+            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, Vector3.zero, duration);
+        }
+        if(curTiltState == TiltState.Left)
+        {
+            curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration);
+            target.localPosition = Vector3.Lerp(target.localPosition, new Vector3(-tiltPositionAmount, 0), duration);
+            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0, curAngle), duration);
+        }
+        if (curTiltState == TiltState.Right)
+        {
+            curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration);
+            target.localPosition = Vector3.Lerp(target.localPosition, new Vector3(tiltPositionAmount, 0), duration);
+            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0, -curAngle), duration);
         }
     }
 
