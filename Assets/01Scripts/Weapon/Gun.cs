@@ -9,6 +9,8 @@ public class Gun : MonoBehaviour
     public WeaponPrefab weaponPrefab;
 
     public UnityEvent Fire;
+    public UnityEvent aim;
+    public UnityEvent aimRelease;
 
     public bool isZoom;
     public GameObject gunHolder;
@@ -24,6 +26,8 @@ public class Gun : MonoBehaviour
 
     Vector3 gunOriginPos;
 
+    PlayerMovement player;
+
     bool isShooting = false;
     void Start()
     {
@@ -31,6 +35,7 @@ public class Gun : MonoBehaviour
         muzzleLight = firePos.transform.GetComponent<Light>();
         muzzleLight.enabled = false;
         gunOriginPos = gunHolder.transform.localPosition;
+        player = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -62,13 +67,15 @@ public class Gun : MonoBehaviour
             isZoom = false;
         }
 
-        if (isZoom)
+        if (isZoom && !player.isRunning)
         {
             aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, zoomPos, Time.deltaTime * zoomTime);
+            aim.Invoke();
         }
         else
         {
             aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, gunOriginPos, Time.deltaTime * zoomTime);
+            aimRelease.Invoke();
         }
     }
 

@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public UnityEvent walking;
+    public UnityEvent running;
+
     public float walkSpeed = 6f;
     public float runSpeed = 8f;
     //public float jumpHeight = 3f;
@@ -29,6 +32,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isMoving && !isRunning)
+        {
+            walking.Invoke();
+        }
+        else if (isRunning)
+        {
+            running.Invoke();
+        }
 
         Move();
     }
@@ -54,6 +65,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
+        if(move.magnitude > 1)
+        move.Normalize();
+
         controller.Move(move * curSpeed * Time.deltaTime);
 
         CheckMoving();
@@ -64,18 +78,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckMoving()
     {
-        if (Mathf.Abs(controller.velocity.magnitude) > controller.velocity.magnitude / 4)
+        Debug.Log(Mathf.Abs(controller.velocity.magnitude));
+        if (Mathf.Abs(controller.velocity.magnitude) > walkSpeed / 4)
         {
-            if (Mathf.Abs(controller.velocity.magnitude) > runSpeed / 4)
-            {
-                isRunning = true;
-            }
             isMoving = true;
         }
         else
-        {
-            isRunning = false;
             isMoving = false;
+        if (Mathf.Abs(controller.velocity.magnitude) > walkSpeed * 1.2f)
+        {
+            isRunning = true;
         }
+        else
+            isRunning = false;
     }
 }
