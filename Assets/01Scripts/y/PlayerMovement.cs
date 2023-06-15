@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        controller.Move(move.normalized * curSpeed * Time.deltaTime);
+        controller.Move(move * curSpeed * Time.deltaTime);
 
         CheckMoving();
 

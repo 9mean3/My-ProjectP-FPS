@@ -19,11 +19,17 @@ public class Gun : MonoBehaviour
     [Space]
     [SerializeField] GameObject effPrefab;
 
+    Transform firePos;
+    Light muzzleLight;
+
     Vector3 gunOriginPos;
 
     bool isShooting = false;
     void Start()
     {
+        firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
+        muzzleLight = firePos.transform.GetComponent<Light>();
+        muzzleLight.enabled = false;
         gunOriginPos = gunHolder.transform.localPosition;
     }
 
@@ -69,7 +75,7 @@ public class Gun : MonoBehaviour
     public void raycasttst()
     {
         RaycastHit hit;
-        if (Physics.Raycast(gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").position, gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").forward, out hit))
+        if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
             GameObject prefab = Instantiate(effPrefab, hit.point, Quaternion.identity);
             Destroy(prefab, 0.08f);
@@ -78,7 +84,7 @@ public class Gun : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").position, gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos").forward);
+        Gizmos.DrawRay(firePos.position, firePos.forward);
     }
 
     IEnumerator FireCrt()

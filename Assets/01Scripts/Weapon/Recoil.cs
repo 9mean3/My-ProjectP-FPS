@@ -10,17 +10,23 @@ public class Recoil : MonoBehaviour
 
     [SerializeField] GameObject target;
     [SerializeField] float gunRecoil;
-
+    [Space]
     [SerializeField] float recoilX;
     [SerializeField] float recoilY;
     [SerializeField] float recoilZ;
-
+    [Space]
+    [SerializeField] float zmrecoilX;
+    [SerializeField] float zmrecoilY;
+    [SerializeField] float zmrecoilZ;
+    [Space]
     [SerializeField] float snappiness;
     [SerializeField] float returnSpeed;
 
+    Gun gun;
+
     private void Start()
     {
-        
+        gun = FindAnyObjectByType<Gun>();
     }
 
     private void Update()
@@ -34,6 +40,10 @@ public class Recoil : MonoBehaviour
 
     public void RecoilFire()
     {
-        targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+        if (!gun.isZoom)
+            targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+        else
+            targetRotation += new Vector3(zmrecoilX, Random.Range(-zmrecoilY, zmrecoilY), Random.Range(-zmrecoilZ, zmrecoilZ));
+
     }
 }
