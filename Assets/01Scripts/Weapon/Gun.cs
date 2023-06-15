@@ -28,7 +28,7 @@ public class Gun : MonoBehaviour
 
     PlayerMovement player;
 
-    bool isShooting = false;
+    public bool isShooting = false;
     void Start()
     {
         firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
@@ -50,8 +50,6 @@ public class Gun : MonoBehaviour
             isShooting = true;
             StartCoroutine(FireCrt());
         }
-
-
 
         Zooming();
     }

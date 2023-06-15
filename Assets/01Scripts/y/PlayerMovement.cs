@@ -46,19 +46,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (controller.isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            curSpeed = runSpeed;
-        }
-        else
-        {
-            curSpeed = walkSpeed;
-        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -70,10 +57,24 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * curSpeed * Time.deltaTime);
 
+        if (Input.GetKey(KeyCode.LeftShift) && !gun.isShooting && z > 0)
+        {
+            curSpeed = runSpeed;
+        }
+        else
+        {
+            curSpeed = walkSpeed;
+        }
+
         CheckMoving();
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
     }
 
     private void CheckMoving()
