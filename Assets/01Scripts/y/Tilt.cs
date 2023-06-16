@@ -45,9 +45,9 @@ public class Tilt : MonoBehaviour
         }
         if (curTiltState == TiltState.Right)
         {
-            curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration);
+            curAngle = Mathf.Lerp(curAngle, -tiltAngleAmount, duration);
             target.localPosition = Vector3.Lerp(target.localPosition, new Vector3(tiltPositionAmount, 0), duration);
-            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0, -curAngle), duration);
+            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0,   curAngle), duration);
         }
     }
 

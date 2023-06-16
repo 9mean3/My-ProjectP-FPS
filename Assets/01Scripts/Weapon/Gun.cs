@@ -19,7 +19,8 @@ public class Gun : MonoBehaviour
     [SerializeField] Vector3 zoomPos;
     [SerializeField] float zoomTime;
     [Space]
-    [SerializeField] GameObject effPrefab;
+    [SerializeField] GameObject hitEffPrefab;
+    [SerializeField] GameObject muzzleFlashEffPrefab;
 
     Transform firePos;
     Light muzzleLight;
@@ -82,7 +83,8 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
-            GameObject prefab = Instantiate(effPrefab, hit.point, Quaternion.identity);
+            GameObject prefab = Instantiate(hitEffPrefab, hit.point, Quaternion.identity);
+            prefab.transform.eulerAngles = -hit.normal;
             Destroy(prefab, 0.08f);
         }
     }
@@ -95,6 +97,7 @@ public class Gun : MonoBehaviour
     IEnumerator FireCrt()
     {
         Fire.Invoke();
+
         yield return new WaitForSeconds(weaponPrefab.WeaponSO.ReturnTime);
         isShooting = false;
     }
