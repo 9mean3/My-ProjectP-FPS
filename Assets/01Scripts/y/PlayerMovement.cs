@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckMoving()
     {
-        Debug.Log(Mathf.Abs(controller.velocity.magnitude));
+        //Debug.Log(Mathf.Abs(controller.velocity.magnitude));
         if (Mathf.Abs(controller.velocity.magnitude) > walkSpeed / 4)
         {
             isMoving = true;

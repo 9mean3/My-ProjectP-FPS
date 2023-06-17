@@ -22,6 +22,8 @@ public class Gun : MonoBehaviour
     [SerializeField] GameObject hitEffPrefab;
     [SerializeField] GameObject muzzleFlashEffPrefab;
 
+    ParticleSystem particleSystem;
+
     Transform firePos;
     Light muzzleLight;
 
@@ -32,6 +34,7 @@ public class Gun : MonoBehaviour
     public bool isShooting = false;
     void Start()
     {
+        particleSystem = hitEffPrefab.GetComponent<ParticleSystem>();
         firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
         muzzleLight = firePos.transform.GetComponent<Light>();
         muzzleLight.enabled = false;
@@ -83,15 +86,15 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
-            GameObject prefab = Instantiate(hitEffPrefab, hit.point, Quaternion.identity);
-            prefab.transform.eulerAngles = -hit.normal;
-            Destroy(prefab, 0.08f);
+            hitEffPrefab.transform.position = hit.point;
+            hitEffPrefab.transform.forward = hit.normal;
+            particleSystem.Play();
         }
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(firePos.position, firePos.forward);
+        //Gizmos.DrawRay(firePos.position, firePos.forward);
     }
 
     IEnumerator FireCrt()
