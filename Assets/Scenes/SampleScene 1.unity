@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22803,13 +22803,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc8093eec47a7f4c8bcdbfa2b9eded4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  maxHP: 0
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+  moveSpeed: 5
+  maxHP: 10
   curHP: 0
-  damage: 0
+  damage: 10
   findDistance: 8
-  attackDistance: 0
-  attackDelay: 0
+  attackDistance: 4
+  attackDelay: 2
 --- !u!1001 &1804544120
 PrefabInstance:
   m_ObjectHideFlags: 0

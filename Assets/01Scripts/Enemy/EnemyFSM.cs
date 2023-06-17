@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class EnemyFSM : MonoBehaviour
     }
 
     EnemyState cEnemyState;
+
+    public UnityEvent OnDie;
 
     Transform player;
 
@@ -103,5 +106,41 @@ public class EnemyFSM : MonoBehaviour
             Debug.Log("Move -> Attack");
             curTime = 0;
         }
+    }
+
+    public void hitEnemy(int damage)
+    {
+        curHP -= damage;
+
+        if(curHP > 0)
+        {
+            cEnemyState = EnemyState.Damaged;
+            print("Any->Damaged");
+            Damaged();
+        }
+        else
+        {
+            cEnemyState = EnemyState.Die;
+            print("Any->Die");
+            Die();
+        }
+    }
+
+    void Damaged()
+    {
+        StartCoroutine(DamageProcess());
+    }
+
+    IEnumerator DamageProcess()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        cEnemyState = EnemyState.Move;
+        print("Damaged->Move");
+    }
+
+    void Die()
+    {
+        OnDie.Invoke();
     }
 }
