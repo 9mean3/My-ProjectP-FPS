@@ -9,7 +9,6 @@ public class EnemyFSM : MonoBehaviour
         Idle,
         Move,
         Attack,
-        Return,
         Damaged,
         Die
     }
@@ -22,6 +21,7 @@ public class EnemyFSM : MonoBehaviour
 
     [SerializeField] int maxHP;
     public int curHP;
+
     [SerializeField] int damage;
 
     public float findDistance;
@@ -52,8 +52,7 @@ public class EnemyFSM : MonoBehaviour
             case EnemyState.Attack:
                 Attack();
                 break;
-            case EnemyState.Return:
-                break;
+
             case EnemyState.Damaged:
                 break;
             case EnemyState.Die:
