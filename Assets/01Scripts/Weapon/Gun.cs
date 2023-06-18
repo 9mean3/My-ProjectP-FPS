@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class Gun : MonoBehaviour
 {
     public WeaponPrefab weaponPrefab;
-    public WeaponSO weaponSO;
 
     public UnityEvent Fire;
     public UnityEvent aim;
@@ -21,7 +20,7 @@ public class Gun : MonoBehaviour
     [SerializeField] float zoomTime;
     [Space]
     [SerializeField] GameObject hitEffPrefab;
-    [SerializeField] GameObject muzzleFlashEffPrefab;
+    [SerializeField] GameObject bloodEffPrefab;
 
     public int curBulletCountInMagazine;
     public int curTotalBulletCount;
@@ -37,7 +36,8 @@ public class Gun : MonoBehaviour
     public bool isShooting = false;
     void Start()
     {
-        curBulletCountInMagazine = weaponSO.TotalBulletCountInMagazine;
+        curTotalBulletCount = weaponPrefab.WeaponSO.StartTotalBulletCount;
+        curBulletCountInMagazine = weaponPrefab.WeaponSO.TotalBulletCountInMagazine;
         firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
         muzzleLight = firePos.transform.GetComponent<Light>();
         muzzleLight.enabled = false;
@@ -60,7 +60,7 @@ public class Gun : MonoBehaviour
             StartCoroutine(FireCrt());
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && curTotalBulletCount > 0)
         {
             Reloading();
         }
@@ -71,6 +71,7 @@ public class Gun : MonoBehaviour
     void Reloading()
     {
         isReloading = true;
+        isZoom = false;
     }
 
     void Zooming()
@@ -110,12 +111,18 @@ public class Gun : MonoBehaviour
             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 EnemyFSM enemyFSM = hit.transform.GetComponent<EnemyFSM>();
-                enemyFSM.hitEnemy(weaponSO.Damage);
+                enemyFSM.hitEnemy(weaponPrefab.WeaponSO.Damage);
+                GameObject prefab = Instantiate(bloodEffPrefab);
+                prefab.transform.position = hit.point;
+                prefab.transform.forward = hit.normal;
+                Destroy(prefab, 0.5f);
             }
             else
             {
-                GameObject prefab = Instantiate(hitEffPrefab, hit.point, Quaternion.Euler(hit.normal));
-                Destroy(prefab);
+                GameObject prefab = Instantiate(hitEffPrefab);
+                prefab.transform.position = hit.point;
+                prefab.transform.forward = hit.normal;
+                Destroy(prefab, 0.5f);
             }
         }
     }
@@ -123,6 +130,15 @@ public class Gun : MonoBehaviour
     void OnDrawGizmos()
     {
         //Gizmos.DrawRay(firePos.position, firePos.forward);
+    }
+
+    public void ReloadEnd()
+    {
+        isReloading = false;
+        int wdp = weaponPrefab.WeaponSO.TotalBulletCountInMagazine - curBulletCountInMagazine;
+        if (curTotalBulletCount < wdp) wdp = curTotalBulletCount + curBulletCountInMagazine;
+        curTotalBulletCount -= wdp;
+        curBulletCountInMagazine = wdp;
     }
 
     IEnumerator FireCrt()
