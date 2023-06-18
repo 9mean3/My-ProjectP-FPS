@@ -6,7 +6,7 @@ public class AnimatorController : MonoBehaviour
 {
     Animator animator;
     PlayerMovement player;
-    Gun gun;
+    protected Gun gun;
 
     void Start()
     {
@@ -18,5 +18,7 @@ public class AnimatorController : MonoBehaviour
     void Update()
     {
         animator.SetBool("isRunning", player.isRunning);
+
+        animator.SetBool("isReloading", gun.isReloading);
     }
 }

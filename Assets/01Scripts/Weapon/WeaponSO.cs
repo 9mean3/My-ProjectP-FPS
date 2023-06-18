@@ -7,7 +7,8 @@ public class WeaponSO : ScriptableObject
 {
     public string Name;
     public GameObject Prefab;
-    public int BulletCount;
+    public int TotalBulletCountInMagazine;
+    public int StartTotalBulletCount;
     public int Damage;
     public bool isAuto;
     public float ReturnTime;

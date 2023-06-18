@@ -23,7 +23,9 @@ public class Gun : MonoBehaviour
     [SerializeField] GameObject hitEffPrefab;
     [SerializeField] GameObject muzzleFlashEffPrefab;
 
-    ParticleSystem particleSystem;
+    public int curBulletCountInMagazine;
+    public int curTotalBulletCount;
+    public bool isReloading = false;
 
     Transform firePos;
     Light muzzleLight;
@@ -35,7 +37,7 @@ public class Gun : MonoBehaviour
     public bool isShooting = false;
     void Start()
     {
-        particleSystem = hitEffPrefab.GetComponent<ParticleSystem>();
+        curBulletCountInMagazine = weaponSO.TotalBulletCountInMagazine;
         firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
         muzzleLight = firePos.transform.GetComponent<Light>();
         muzzleLight.enabled = false;
@@ -45,18 +47,30 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if (weaponPrefab.WeaponSO.isAuto && Input.GetMouseButton(0) && !isShooting)
+        if (isReloading) return; /////////////////////////////////////////////////////////////////////////////////////////////////////////wait for it
+
+        if (weaponPrefab.WeaponSO.isAuto && Input.GetMouseButton(0) && !isShooting && curBulletCountInMagazine > 0)
         {
             isShooting = true;
             StartCoroutine(FireCrt());
         }
-        if (!weaponPrefab.WeaponSO.isAuto && Input.GetMouseButtonDown(0) && !isShooting)
+        if (!weaponPrefab.WeaponSO.isAuto && Input.GetMouseButtonDown(0) && !isShooting && curBulletCountInMagazine > 0)
         {
             isShooting = true;
             StartCoroutine(FireCrt());
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reloading();
+        }
+
         Zooming();
+    }
+
+    void Reloading()
+    {
+        isReloading = true;
     }
 
     void Zooming()
@@ -69,6 +83,8 @@ public class Gun : MonoBehaviour
         {
             isZoom = false;
         }*/
+
+        if (player.isRunning) isZoom = false;
         if (Input.GetMouseButtonDown(1))
         {
             isZoom = !isZoom;
@@ -91,16 +107,15 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
-            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 EnemyFSM enemyFSM = hit.transform.GetComponent<EnemyFSM>();
                 enemyFSM.hitEnemy(weaponSO.Damage);
             }
             else
             {
-            hitEffPrefab.transform.position = hit.point;
-            hitEffPrefab.transform.forward = hit.normal;
-            particleSystem.Play();
+                GameObject prefab = Instantiate(hitEffPrefab, hit.point, Quaternion.Euler(hit.normal));
+                Destroy(prefab);
             }
         }
     }
@@ -113,7 +128,7 @@ public class Gun : MonoBehaviour
     IEnumerator FireCrt()
     {
         Fire.Invoke();
-
+        curBulletCountInMagazine--;
         yield return new WaitForSeconds(weaponPrefab.WeaponSO.ReturnTime);
         isShooting = false;
     }

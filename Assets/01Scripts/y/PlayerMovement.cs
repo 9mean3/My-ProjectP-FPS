@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             isMoving = false;
-        if (Mathf.Abs(controller.velocity.magnitude) > walkSpeed * 1.2f)
+        if (Mathf.Abs(controller.velocity.magnitude) > walkSpeed * 1.2f && Input.GetKey(KeyCode.LeftShift))
         {
             isRunning = true;
         }
