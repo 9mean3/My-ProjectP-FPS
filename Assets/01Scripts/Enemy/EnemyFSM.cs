@@ -44,6 +44,7 @@ public class EnemyFSM : MonoBehaviour
 
     private void Update()
     {
+        if (cEnemyState == EnemyState.Die) return;
         switch (cEnemyState)
         {
             case EnemyState.Idle:
@@ -86,6 +87,11 @@ public class EnemyFSM : MonoBehaviour
             cEnemyState = EnemyState.Attack;
             Debug.Log("Move -> Attack");
             curTime = attackDelay;
+        }
+        if(Vector3.Distance(transform.position, player.position) > findDistance)
+        {
+            cEnemyState = EnemyState.Idle;
+            print("Move->Idle");
         }
     }
 

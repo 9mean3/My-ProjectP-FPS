@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Gun : MonoBehaviour
 {
     public WeaponPrefab weaponPrefab;
+    public WeaponSO weaponSO;
 
     public UnityEvent Fire;
     public UnityEvent aim;
@@ -86,9 +87,17 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                EnemyFSM enemyFSM = hit.transform.GetComponent<EnemyFSM>();
+                enemyFSM.hitEnemy(weaponSO.Damage);
+            }
+            else
+            {
             hitEffPrefab.transform.position = hit.point;
             hitEffPrefab.transform.forward = hit.normal;
             particleSystem.Play();
+            }
         }
     }
 
