@@ -20,3 +20,4 @@ MonoBehaviour:
   isAuto: 1
   ReturnTime: 0.12
   RecoilAmount: {x: -2, y: 2, z: 0.35}
+  FireSoundAmount: 35
