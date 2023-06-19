@@ -27,6 +27,6 @@ public class SomeoneHeardThis : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, gun.weaponPrefab.WeaponSO.FireSoundAmount);
+        //Gizmos.DrawWireSphere(transform.position, gun.weaponPrefab.WeaponSO.FireSoundAmount);
     }
 }

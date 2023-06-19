@@ -87,10 +87,15 @@ public class Gun : MonoBehaviour
             isZoom = false;
         }*/
 
-        if (player.isRunning) isZoom = false;
-        if (Input.GetMouseButtonDown(1))
+        //if (player.isRunning) isZoom = false;
+        if (Input.GetMouseButton(1) && !player.isRunning)
         {
-            isZoom = !isZoom;
+            isZoom = true;
+            player.isRunning = false;
+        }
+        else
+        {
+            isZoom = false;
         }
 
         if (isZoom && !player.isRunning)

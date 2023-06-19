@@ -57,9 +57,10 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move * curSpeed * Time.deltaTime);
 
-        if (Input.GetKey(KeyCode.LeftShift) && !gun.isShooting && z > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && !gun.isShooting && !gun.isReloading && z > 0)
         {
             curSpeed = runSpeed;
+            gun.isZoom = false;
         }
         else
         {

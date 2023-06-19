@@ -58,6 +58,7 @@ public class EnemyFSM : MonoBehaviour
             print("any->Findyou");
             cEnemyState = EnemyState.FindYou;
         }
+        //DetectPlayer();
         switch (cEnemyState)
         {
             case EnemyState.Idle:
@@ -84,7 +85,31 @@ public class EnemyFSM : MonoBehaviour
         
     }
 
-    [SerializeField] float SightAngle = 70f; //시야각 범위
+/*    public float detectionAngle = 30f;  // 감지할 수 있는 시야 각도
+    public float detectionRange = 10f;  // 감지할 수 있는 최대 거리
+
+
+    private void DetectPlayer()
+    {
+        // 플레이어와의 거리가 감지 범위 이내인지 확인
+        Vector3 playerDirection = player.position - transform.position;
+        float distanceToPlayer = playerDirection.magnitude;
+        if (distanceToPlayer <= detectionRange)
+        {
+            // 플레이어가 감지 범위 이내에 있을 때, 각도를 계산하여 플레이어를 감지하는지 확인
+            float angleToPlayer = Vector3.Angle(transform.forward, playerDirection);
+            if (angleToPlayer <= detectionAngle)
+            {
+                // 플레이어를 감지한 경우
+                Debug.Log("플레이어 감지!");
+
+                // 여기에 플레이어를 감지했을 때 수행할 동작을 추가하면 됩니다.
+                // 예를 들어, 적이 플레이어를 추적하도록 AI를 추가하거나, 공격하도록 하는 등의 동작을 구현할 수 있습니다.
+            }
+        }
+    }*/
+
+    [SerializeField] float SightAngle = 60f; //시야각 범위
 
     bool IsTargetInSight()
     {

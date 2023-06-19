@@ -37,13 +37,13 @@ public class FindingPlayerAI : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+/*        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, findwithWalkDistance);
 
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, findwithFireDistance);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, findwithWatchDistance);
+        Gizmos.DrawWireSphere(transform.position, findwithWatchDistance);*/
     }
 }

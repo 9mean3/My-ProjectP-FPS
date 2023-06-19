@@ -22,13 +22,17 @@ public class Tilt : MonoBehaviour
 
     TiltState curTiltState;
 
+    PlayerMovement player;
+
     private void Start()
     {
-        
+        player = transform.parent.GetComponent<PlayerMovement>();
     }
 
     private void Update()
     {
+        if (player.isRunning) curTiltState = TiltState.Idle;
+
         TiltInput();
 
         if(curTiltState == TiltState.Idle)

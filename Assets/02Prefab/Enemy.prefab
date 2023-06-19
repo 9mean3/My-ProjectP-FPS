@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8141613292975440767}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc8093eec47a7f4c8bcdbfa2b9eded4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cEnemyState: 0
   OnDie:
     m_PersistentCalls:
       m_Calls:
@@ -132,13 +133,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  moveSpeed: 5
+  defMoveSpeed: 5
+  curiousMoveSpeed: 3
   damage: 10
   maxHP: 100
   curHP: 0
   findDistance: 10
   attackDistance: 4
   attackDelay: 2
+  SightAngle: 70
 --- !u!114 &8141613292975440766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8141613292975440760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 117b6a57e408caf429b55c2da89b6bf2, type: 3}
   m_Name: 
