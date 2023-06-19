@@ -13,4 +13,5 @@ public class WeaponSO : ScriptableObject
     public bool isAuto;
     public float ReturnTime;
     public Vector3 RecoilAmount;
+    public float FireSoundAmount;
 }

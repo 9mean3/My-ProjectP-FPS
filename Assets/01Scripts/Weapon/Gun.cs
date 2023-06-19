@@ -12,10 +12,10 @@ public class Gun : MonoBehaviour
     public UnityEvent aim;
     public UnityEvent aimRelease;
 
-    public bool isZoom;
     public GameObject gunHolder;
     [SerializeField] GameObject aimObj;
 
+    public bool isZoom;
     [SerializeField] Vector3 zoomPos;
     [SerializeField] float zoomTime;
     [Space]
@@ -25,6 +25,8 @@ public class Gun : MonoBehaviour
     public int curBulletCountInMagazine;
     public int curTotalBulletCount;
     public bool isReloading = false;
+
+    public LayerMask whoisEnemy;
 
     Transform firePos;
     Light muzzleLight;
@@ -70,8 +72,8 @@ public class Gun : MonoBehaviour
 
     void Reloading()
     {
-        isReloading = true;
         isZoom = false;
+        isReloading = true;
     }
 
     void Zooming()
@@ -136,9 +138,11 @@ public class Gun : MonoBehaviour
     {
         isReloading = false;
         int wdp = weaponPrefab.WeaponSO.TotalBulletCountInMagazine - curBulletCountInMagazine;
+        //print(wdp);
         if (curTotalBulletCount < wdp) wdp = curTotalBulletCount + curBulletCountInMagazine;
+        //print(wdp);
         curTotalBulletCount -= wdp;
-        curBulletCountInMagazine = wdp;
+        curBulletCountInMagazine += wdp;
     }
 
     IEnumerator FireCrt()

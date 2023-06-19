@@ -1,31 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class EnemyFSM : MonoBehaviour
 {
-    enum EnemyState
+    public enum EnemyState
     {
         Idle,
-        Move,
+        Curious,
+        FindYou,
         Attack,
         Damaged,
         Die
     }
 
-    EnemyState cEnemyState;
+    public EnemyState cEnemyState;
 
     public UnityEvent OnDie;
 
-    Transform player;
+    [Space]
 
-    public float moveSpeed;
-
+    public float defMoveSpeed;
+    public float curiousMoveSpeed;
+    float curMoveSpeed;
+    [SerializeField] int damage;
     [SerializeField] int maxHP;
     public int curHP;
-
-    [SerializeField] int damage;
 
     public float findDistance;
     public float attackDistance;
@@ -33,28 +36,38 @@ public class EnemyFSM : MonoBehaviour
     public float attackDelay;
     float curTime;
 
+    Transform player;
+    FindingPlayerAI ai;
     CharacterController cc;
+    NavMeshAgent navAgent;
 
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Transform>();
         cEnemyState = EnemyState.Idle;
         cc = GetComponent<CharacterController>();
+        navAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         if (cEnemyState == EnemyState.Die) return;
+        navAgent.speed = curMoveSpeed;
+        if (IsTargetInSight())
+        {
+            print("any->Findyou");
+            cEnemyState = EnemyState.FindYou;
+        }
         switch (cEnemyState)
         {
             case EnemyState.Idle:
                 Idle();
                 break;
-            case EnemyState.Move:
-                Move();
+            case EnemyState.Curious:
+                Curious();
                 break;
-            case EnemyState.Attack:
-                Attack();
+            case EnemyState.FindYou:
+                FindYou();
                 break;
 
             case EnemyState.Damaged:
@@ -66,41 +79,84 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
+    private void FindYou()
+    {
+        
+    }
+
+    [SerializeField] float SightAngle = 70f; //시야각 범위
+
+    bool IsTargetInSight()
+    {
+
+        //타겟의 방향 
+        Vector3 targetDir = (player.position - transform.position).normalized;
+        float dot = Vector3.Dot(transform.forward, targetDir);
+
+        //내적을 이용한 각 계산하기
+        // thetha = cos^-1( a dot b / |a||b|)
+        float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
+
+        //Debug.Log("타겟과 AI의 각도 : " + theta);
+        if (theta <= SightAngle) return true;
+        else return false;
+
+        return false;
+
+    }
+
     void Idle()
     {
-        if (Vector3.Distance(transform.position, player.position) < findDistance)
+        /*if (Vector3.Distance(transform.position, player.position) < findDistance)
         {
             cEnemyState = EnemyState.Move;
             Debug.Log("Idle -> Move");
-        }
+            navAgent.SetDestination(transform.position);
+        }*/
+        /*if (ai.)
+        {
+            cEnemyState = EnemyState.Curious;
+            Debug.Log("Idle -> Move");
+            navAgent.SetDestination(transform.position);
+        }*/
     }
 
-    void Move()
+    Vector3 curiousPoint;
+    void Curious()
     {
-        if (Vector3.Distance(transform.position, player.position) > attackDistance)
+        curMoveSpeed = curiousMoveSpeed;
+        navAgent.SetDestination(curiousPoint);
+
+        if (Vector3.Distance(transform.position, curiousPoint) < 1)
         {
-            Vector3 dir = (player.position - transform.position).normalized;
-            cc.Move(dir * moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            cEnemyState = EnemyState.Attack;
-            Debug.Log("Move -> Attack");
-            curTime = attackDelay;
-        }
-        if(Vector3.Distance(transform.position, player.position) > findDistance)
-        {
-            cEnemyState = EnemyState.Idle;
-            print("Move->Idle");
+            WaitForIt(3, () =>
+            {
+                cEnemyState = EnemyState.Idle;
+            });
         }
     }
+    public void SetCuriousPoint(Vector3 point)
+    {
+        WaitForIt(3, () =>
+        {
+            curiousPoint = point;
+            cEnemyState = EnemyState.Curious;
+            print("Curious");
+        });
+    }
 
+    IEnumerator WaitForIt(float waitingTime, Action action)
+    {
+        yield return new WaitForSeconds(waitingTime);
+        action.Invoke();
+    }
+        
     void Attack()
     {
-        if(Vector3.Distance(transform.position, player.position) < attackDistance)
+        if (Vector3.Distance(transform.position, player.position) < attackDistance)
         {
             curTime += Time.deltaTime;
-            if(curTime >= attackDelay)
+            if (curTime >= attackDelay)
             {
                 print("attack");
                 curTime = 0;
@@ -108,7 +164,7 @@ public class EnemyFSM : MonoBehaviour
         }
         else
         {
-            cEnemyState = EnemyState.Move;
+            cEnemyState = EnemyState.FindYou;
             Debug.Log("Move -> Attack");
             curTime = 0;
         }
@@ -118,7 +174,7 @@ public class EnemyFSM : MonoBehaviour
     {
         curHP -= damage;
 
-        if(curHP > 0)
+        if (curHP > 0)
         {
             cEnemyState = EnemyState.Damaged;
             print("Any->Damaged");
@@ -137,12 +193,13 @@ public class EnemyFSM : MonoBehaviour
         StartCoroutine(DamageProcess());
     }
 
+
     IEnumerator DamageProcess()
     {
         yield return new WaitForSeconds(0.5f);
 
-        cEnemyState = EnemyState.Move;
-        print("Damaged->Move");
+        cEnemyState = EnemyState.FindYou;
+        print("Damaged->FindYou");
     }
 
     void Die()
