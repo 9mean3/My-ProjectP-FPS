@@ -5,6 +5,7 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class EnemyFSM : MonoBehaviour
 
     public EnemyState cEnemyState;
 
+    public UnityEvent OnAttack;
+
     public UnityEvent OnDie;
 
     [Space]
@@ -27,12 +30,19 @@ public class EnemyFSM : MonoBehaviour
     public float defMoveSpeed;
     public float curiousMoveSpeed;
     float curMoveSpeed;
+    bool isFire = false;
     [SerializeField] int damage;
     [SerializeField] int maxHP;
     public int curHP;
 
-    public float findDistance;
-    public float attackDistance;
+    /*    public float findDistance;
+        public float attackDistance;*/
+
+    [SerializeField] GameObject gunObject;
+    Transform firePos;
+    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] float recoilX;
+    [SerializeField] float recoilY;
 
     public float attackDelay;
     float curTime;
@@ -45,6 +55,7 @@ public class EnemyFSM : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Transform>();
+        firePos = gunObject.transform.Find("FirePos");
         cEnemyState = EnemyState.Idle;
         cc = GetComponent<CharacterController>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -83,19 +94,37 @@ public class EnemyFSM : MonoBehaviour
 
     private void FindYou()
     {
-        transform.eulerAngles = player.position - transform.position;
+        transform.forward = player.position - transform.position;
 
         float r = UnityEngine.Random.value * 10;
         float t = 0;
         t += Time.deltaTime;
 
+        if(t < r)
+        {
+            float goWhere = Random.rotation.y;
+            transform.position += Vector3.right * goWhere;
+        }
+
+        if (!isFire)
+        StartCoroutine(Attack());
     }
 
     IEnumerator Attack()
     {
-
+        isFire = true;
+        gunObject.transform.localEulerAngles = new Vector3(Random.Range(-recoilX, recoilX), Random.Range(-recoilY, recoilY));
+        print("Attack.");
+        RaycastHit hit;
+        if (Physics.Raycast(firePos.position, firePos.forward, out hit))
+        {
+            GameObject p = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
+            p.GetComponent<Projectile>().SetProjectile(false, damage);
+            p.GetComponent<Rigidbody>().velocity = firePos.forward * 400;
+        }
+        yield return new WaitForSeconds(attackDelay);
+        isFire = false;
     }
-
 
 
     [SerializeField] float SightAngle = 60f; //시야각 범위

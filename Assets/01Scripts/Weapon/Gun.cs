@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Vector3 zoomPos;
     [SerializeField] float zoomTime;
     [Space]
+    [SerializeField] GameObject projectilePrefab;
     [SerializeField] GameObject hitEffPrefab;
     [SerializeField] GameObject bloodEffPrefab;
 
@@ -105,7 +106,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            /*if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 EnemyFSM enemyFSM = hit.transform.GetComponent<EnemyFSM>();
                 enemyFSM.hitEnemy(weaponPrefab.WeaponSO.Damage);
@@ -120,8 +121,11 @@ public class Gun : MonoBehaviour
                 prefab.transform.position = hit.point;
                 prefab.transform.forward = hit.normal;
                 Destroy(prefab, 0.5f);
-            }
+            }*/
         }
+        GameObject p = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
+        p.GetComponent<Projectile>().SetProjectile(true, weaponPrefab.WeaponSO.Damage);
+        p.GetComponent<Rigidbody>().velocity = firePos.forward * 400f;
     }
 
     void OnDrawGizmos()
