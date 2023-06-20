@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
@@ -50,7 +51,7 @@ public class EnemyFSM : MonoBehaviour
     Transform player;
     FindingPlayerAI ai;
     CharacterController cc;
-    NavMeshAgent navAgent;
+    //NavMeshAgent navAgent;
 
     private void Start()
     {
@@ -58,16 +59,16 @@ public class EnemyFSM : MonoBehaviour
         firePos = gunObject.transform.Find("FirePos");
         cEnemyState = EnemyState.Idle;
         cc = GetComponent<CharacterController>();
-        navAgent = GetComponent<NavMeshAgent>();
+        //navAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         if (cEnemyState == EnemyState.Die) return;
-        navAgent.speed = curMoveSpeed;
+        //navAgent.speed = curMoveSpeed;
         if (IsTargetInSight())
         {
-            print("any->Findyou");
+            //print("any->Findyou");
             cEnemyState = EnemyState.FindYou;
         }
         //DetectPlayer();
@@ -77,7 +78,6 @@ public class EnemyFSM : MonoBehaviour
                 Idle();
                 break;
             case EnemyState.Curious:
-                Curious();
                 break;
             case EnemyState.FindYou:
                 FindYou();
@@ -92,23 +92,28 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
+    float t = 0;
+    float r = 0;
     private void FindYou()
     {
         transform.forward = player.position - transform.position;
 
-        float r = UnityEngine.Random.value * 10;
-        float t = 0;
         t += Time.deltaTime;
-
-        if(t < r)
+        //print(t);
+        //StartCoroutine(Move());
+        if (t > r)
         {
-            float goWhere = Random.rotation.y;
-            transform.position += Vector3.right * goWhere;
+            //navAgent.SetDestination(player.position);
+            //StartCoroutine(Move());
+            t = 0;
+            r = UnityEngine.Random.Range(3, 10);
+            print("µé¿È");
         }
 
         if (!isFire)
-        StartCoroutine(Attack());
+            StartCoroutine(Attack());
     }
+    float ct = 3;
 
     IEnumerator Attack()
     {
@@ -148,68 +153,8 @@ public class EnemyFSM : MonoBehaviour
 
     void Idle()
     {
-        /*if (Vector3.Distance(transform.position, player.position) < findDistance)
-        {
-            cEnemyState = EnemyState.Move;
-            Debug.Log("Idle -> Move");
-            navAgent.SetDestination(transform.position);
-        }*/
-        /*if (ai.)
-        {
-            cEnemyState = EnemyState.Curious;
-            Debug.Log("Idle -> Move");
-            navAgent.SetDestination(transform.position);
-        }*/
-    }
-
-    Vector3 curiousPoint;
-    void Curious()
-    {
-        curMoveSpeed = curiousMoveSpeed;
-        navAgent.SetDestination(curiousPoint);
-
-        if (Vector3.Distance(transform.position, curiousPoint) < 1)
-        {
-            WaitForIt(3, () =>
-            {
-                cEnemyState = EnemyState.Idle;
-            });
-        }
-    }
-    public void SetCuriousPoint(Vector3 point)
-    {
-        WaitForIt(3, () =>
-        {
-            curiousPoint = point;
-            cEnemyState = EnemyState.Curious;
-            print("Curious");
-        });
-    }
-
-    IEnumerator WaitForIt(float waitingTime, Action action)
-    {
-        yield return new WaitForSeconds(waitingTime);
-        action.Invoke();
-    }
         
-/*    void Attack()
-    {
-        if (Vector3.Distance(transform.position, player.position) < attackDistance)
-        {
-            curTime += Time.deltaTime;
-            if (curTime >= attackDelay)
-            {
-                print("attack");
-                curTime = 0;
-            }
-        }
-        else
-        {
-            cEnemyState = EnemyState.FindYou;
-            Debug.Log("Move -> Attack");
-            curTime = 0;
-        }
-    }*/
+    }
 
     public void hitEnemy(int damage)
     {
