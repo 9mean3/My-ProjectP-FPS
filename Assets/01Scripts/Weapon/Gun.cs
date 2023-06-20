@@ -62,7 +62,7 @@ public class Gun : MonoBehaviour
             StartCoroutine(FireCrt());
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && curTotalBulletCount > 0)
+        if (Input.GetKeyDown(KeyCode.R) && curTotalBulletCount > 0 && curBulletCountInMagazine != weaponPrefab.WeaponSO.TotalBulletCountInMagazine)
         {
             Reloading();
         }
@@ -78,27 +78,7 @@ public class Gun : MonoBehaviour
 
     void Zooming()
     {
-        /*if (Input.GetMouseButton(1))
-        {
-            isZoom = true;
-        }
-        else
-        {
-            isZoom = false;
-        }*/
-
-        //if (player.isRunning) isZoom = false;
-        if (Input.GetMouseButton(1) && !player.isRunning)
-        {
-            isZoom = true;
-            player.isRunning = false;
-        }
-        else
-        {
-            isZoom = false;
-        }
-
-        if (isZoom && !player.isRunning)
+        if (isZoom/* && !player.isRunning*/)
         {
             aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, zoomPos, Time.deltaTime * zoomTime);
             aim.Invoke();
@@ -107,6 +87,16 @@ public class Gun : MonoBehaviour
         {
             aimObj.transform.localPosition = Vector3.Lerp(aimObj.transform.localPosition, gunOriginPos, Time.deltaTime * zoomTime);
             aimRelease.Invoke();
+        }
+
+        if (Input.GetMouseButton(1) && !player.isRunning && !isReloading    )
+        {
+            isZoom = true;
+            player.isRunning = false;
+        }
+        else
+        {
+            isZoom = false;
         }
     }
 

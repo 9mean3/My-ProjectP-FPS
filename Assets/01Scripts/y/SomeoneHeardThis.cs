@@ -18,7 +18,7 @@ public class SomeoneHeardThis : MonoBehaviour
         {
             if (hit[i].transform.CompareTag("Enemy"))
             {
-                hit[i].transform.GetComponent<EnemyFSM>().SetCuriousPoint(transform.position);
+                //hit[i].transform.GetComponent<EnemyFSM>().SetCuriousPoint(transform.position);
                 print("setcurioutpoinnt»£√‚");
             }
         }
