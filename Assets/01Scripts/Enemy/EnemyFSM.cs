@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -34,7 +34,7 @@ public class EnemyFSM : MonoBehaviour
     bool isFire = false;
     [SerializeField] int damage;
     [SerializeField] int maxHP;
-    public int curHP;
+    int curHP;
 
     /*    public float findDistance;
         public float attackDistance;*/
@@ -51,7 +51,7 @@ public class EnemyFSM : MonoBehaviour
     Transform player;
     FindingPlayerAI ai;
     CharacterController cc;
-    //NavMeshAgent navAgent;
+    public NavMeshAgent agent;
 
     private void Start()
     {
@@ -59,19 +59,15 @@ public class EnemyFSM : MonoBehaviour
         firePos = gunObject.transform.Find("FirePos");
         cEnemyState = EnemyState.Idle;
         cc = GetComponent<CharacterController>();
-        //navAgent = GetComponent<NavMeshAgent>();
+        curHP = maxHP;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
         if (cEnemyState == EnemyState.Die) return;
-        //navAgent.speed = curMoveSpeed;
-        if (IsTargetInSight())
-        {
-            //print("any->Findyou");
-            cEnemyState = EnemyState.FindYou;
-        }
-        //DetectPlayer();
+        agent.speed = curiousMoveSpeed;
+        print(cEnemyState);
         switch (cEnemyState)
         {
             case EnemyState.Idle:
@@ -92,23 +88,21 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
+
+    [SerializeField] float radius = 5f;
     float t = 0;
     float r = 0;
     private void FindYou()
     {
         Vector3 dir = player.transform.position - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * GetComponent<Ai>().agent.acceleration);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * GetComponent<Ai>().agent.acceleration * 3);
 
         t += Time.deltaTime;
-        //print(t);
-        //StartCoroutine(Move());
-        if (t > r)
+        if (t > r && cEnemyState != EnemyState.Die)
         {
-            //navAgent.SetDestination(player.position);
-            //StartCoroutine(Move());
+            agent.SetDestination(GetPoint.Instance.GetRandomPoint(player, radius));
+            r = Random.Range(2f, 8f);
             t = 0;
-            r = UnityEngine.Random.Range(3, 10);
-            print("들옴");
         }
 
         if (!isFire)
@@ -119,8 +113,9 @@ public class EnemyFSM : MonoBehaviour
     IEnumerator Attack()
     {
         isFire = true;
-        //gunObject.transform.localEulerAngles = new Vector3(Random.Range(-recoilX, recoilX), Random.Range(-recoilY, recoilY));
-        print("Attack.");
+        gunObject.transform.forward = player.position - transform.position;
+        gunObject.transform.localEulerAngles = new Vector3(Random.Range(-recoilX, recoilX), Random.Range(-recoilY, recoilY));
+        //print("Attack.");
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))
         {
@@ -128,6 +123,7 @@ public class EnemyFSM : MonoBehaviour
             p.GetComponent<Projectile>().SetProjectile(false, damage);
             p.GetComponent<Rigidbody>().velocity = firePos.forward * 400;
         }
+        attackDelay = Random.Range(0.15f, 0.35f);
         yield return new WaitForSeconds(attackDelay);
         isFire = false;
     }
@@ -135,26 +131,33 @@ public class EnemyFSM : MonoBehaviour
 
     [SerializeField] float SightAngle = 60f; //시야각 범위
 
-    bool IsTargetInSight()
-    {
+    /*    bool IsTargetInSight()
+        {
 
-        //타겟의 방향 
-        Vector3 targetDir = (player.position - transform.position).normalized;
-        float dot = Vector3.Dot(transform.forward, targetDir);
+            //타겟의 방향 
+            Vector3 targetDir = (player.position - transform.position).normalized;
+            float dot = Vector3.Dot(transform.forward, targetDir);
 
-        //내적을 이용한 각 계산하기
-        // thetha = cos^-1( a dot b / |a||b|)
-        float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
+            //내적을 이용한 각 계산하기
+            // thetha = cos^-1( a dot b / |a||b|)
+            float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
-        //Debug.Log("타겟과 AI의 각도 : " + theta);
-        if (theta <= SightAngle) return true;
-        else return false;
+            //Debug.Log("타겟과 AI의 각도 : " + theta);
+            if (theta <= SightAngle || Vector3.Distance(player.position, transform.position) < 2f) return true;
+            else return false;
 
-    }
+        }*/
 
+
+    float time = 0;
     void Idle()
     {
-        
+        time += Time.deltaTime;
+        if (time > 5)
+        {
+            agent.SetDestination(GetPoint.Instance.GetRandomPoint(transform, 20));
+            time = 0;
+        }
     }
 
     public void hitEnemy(int damage)
@@ -164,13 +167,11 @@ public class EnemyFSM : MonoBehaviour
         if (curHP > 0)
         {
             cEnemyState = EnemyState.Damaged;
-            print("Any->Damaged");
             Damaged();
         }
         else
         {
             cEnemyState = EnemyState.Die;
-            print("Any->Die");
             Die();
         }
     }
@@ -186,11 +187,13 @@ public class EnemyFSM : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         cEnemyState = EnemyState.FindYou;
-        print("Damaged->FindYou");
+        //print("Damaged->FindYou");
     }
 
     void Die()
     {
+        print("죽음");
+        Destroy(gameObject, 3);
         OnDie.Invoke();
     }
 }

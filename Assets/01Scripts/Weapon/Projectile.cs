@@ -16,6 +16,18 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, 5);
     }
 
+    private void Update()
+    {
+        RaycastHit hit;
+        if(Physics.SphereCast(transform.position, 5, transform.forward, out hit))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                hit.transform.root.GetComponent<EnemyFSM>().cEnemyState = EnemyFSM.EnemyState.FindYou;
+            }
+        }
+    }
+
     public void SetProjectile(bool b, int damage)
     {
         isPlayer = b;
@@ -34,7 +46,7 @@ public class Projectile : MonoBehaviour
             else if (collision.transform.CompareTag("EnemyHead"))
             {
                 GameObject p = Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
-                collision.transform.root.GetComponent<EnemyFSM>().hitEnemy(damage*2);
+                collision.transform.root.GetComponent<EnemyFSM>().hitEnemy(damage*4);
                 print("hitEnemyHead");
             }
             else
@@ -45,8 +57,8 @@ public class Projectile : MonoBehaviour
             if (collision.transform.CompareTag("Player"))
             {
                 GameObject p = Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
-                collision.transform.GetComponent<PlayerHealth>().GetDamage(damage);
-                collision.transform.GetComponent<PlayerHealth>().Damaged.Invoke();
+                collision.transform.root.GetComponent<PlayerHealth>().GetDamage(damage);
+                collision.transform.root.GetComponent<PlayerHealth>().Damaged.Invoke();
                 print("hitPlayer");
             }
             else

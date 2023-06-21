@@ -27,7 +27,7 @@ public class Tilt : MonoBehaviour
 
     private void Start()
     {
-        player = transform.parent.GetComponent<PlayerMovement>();
+        player = transform.root.GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -35,20 +35,20 @@ public class Tilt : MonoBehaviour
         if (player.isRunning) curTiltState = TiltState.Idle;
 
         TiltInput();
-
-            target.GetComponent<CinemachineVirtualCamera>().m_Lens.Dutch = curAngle;
-        if(curTiltState == TiltState.Idle)
+        target.GetComponent<Transform>().localEulerAngles = new Vector3(0, 0, curAngle);
+        //transform.localEulerAngles = new Vector3(0, 0, curAngle);
+        if (curTiltState == TiltState.Idle)
         {
-            curAngle = Mathf.Lerp(curAngle, 0, duration);
+            curAngle = Mathf.Lerp(curAngle, 0, duration * Time.deltaTime);
         }
-        if(curTiltState == TiltState.Left)
+        if (curTiltState == TiltState.Left)
         {
-            curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration);
+            curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration * Time.deltaTime);
 
         }
         if (curTiltState == TiltState.Right)
         {
-            curAngle = Mathf.Lerp(curAngle, -tiltAngleAmount, duration);
+            curAngle = Mathf.Lerp(curAngle, -tiltAngleAmount, duration * Time.deltaTime);
 
         }
     }
@@ -57,7 +57,7 @@ public class Tilt : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(curTiltState == TiltState.Idle || curTiltState == TiltState.Right)
+            if (curTiltState == TiltState.Idle || curTiltState == TiltState.Right)
                 curTiltState = TiltState.Left;
             else
                 curTiltState = TiltState.Idle;

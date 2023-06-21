@@ -10,20 +10,29 @@ public class Ai : MonoBehaviour
 
     public float radius;
 
+    Transform player;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        player = GameObject.Find("Player").transform;
     }
     float t = 0;
     [SerializeField] float moveCD = 3;
+    bool attacking = false;
     private void Update()
     {
-        t += Time.deltaTime;
-        if (t > moveCD)
+/*        t += Time.deltaTime;
+        if (t > moveCD && attacking)
         {
-            agent.SetDestination(GetPoint.Instance.GetRandomPoint(transform, radius));
+            agent.SetDestination(GetPoint.Instance.GetRandomPoint(player, radius));
             t = 0;
         }
+        else if(t > moveCD && !attacking)
+        {
+            agent.SetDestination(GetPoint.Instance.GetRandomPoint(player, radius));
+            t = 0;
+        }*/
     }
 
 #if UNITY_EDITOR

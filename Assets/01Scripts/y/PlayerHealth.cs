@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class PlayerHealth : MonoBehaviour
 {
     public UnityEvent Damaged;
+    public UnityEvent OnDieEvent;
 
     [SerializeField] int maxHP;
     public int curHP;
@@ -17,11 +18,18 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void GetDamage(int damage)
     {
-        curHP -= damage;
+        if (0 < curHP)
+        {
+            curHP -= damage;
+        }
+        else
+        {
+            OnDieEvent.Invoke();
+        }
     }
 }

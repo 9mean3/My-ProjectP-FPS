@@ -15,11 +15,13 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isMoving;
     public bool isRunning;
+    public bool isSitting;
 
     Gun gun;
 
     private float curSpeed;
     CharacterController controller;
+    CapsuleCollider capsule;
 
     public Vector3 velocity;
 
@@ -27,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         gun = GetComponent<Gun>();
         controller = GetComponent<CharacterController>();
+        capsule = transform.GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
@@ -61,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         {
             curSpeed = runSpeed;
             gun.isZoom = false;
+            isSitting = false;
         }
         else
         {
@@ -69,12 +73,31 @@ public class PlayerMovement : MonoBehaviour
 
         CheckMoving();
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isSitting = !isSitting;
+        }
+
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         
         if (controller.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+        }
+    }
+
+    void SitEvent()
+    {
+        if (isSitting)
+        {
+            capsule.center = new Vector3(0, -0.4f, 0);
+            capsule.height = 1.4f;
+        }
+        else
+        {
+            capsule.center = Vector3.zero;
+            capsule.height = 2f;
         }
     }
 
