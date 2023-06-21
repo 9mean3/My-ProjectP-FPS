@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] int maxHP;
     public int curHP;
 
+    bool isDie;
+
     private void Start()
     {
         curHP = maxHP;
@@ -29,7 +31,9 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            OnDieEvent.Invoke();
+            if (!isDie)
+                OnDieEvent.Invoke();
+            isDie = true;
         }
     }
 }

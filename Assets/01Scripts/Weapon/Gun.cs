@@ -42,8 +42,8 @@ public class Gun : MonoBehaviour
         curTotalBulletCount = weaponPrefab.WeaponSO.StartTotalBulletCount;
         curBulletCountInMagazine = weaponPrefab.WeaponSO.TotalBulletCountInMagazine;
         firePos = gunHolder.transform.Find(weaponPrefab.WeaponSO.Name.ToString() + "/FirePos");
-        muzzleLight = firePos.transform.GetComponent<Light>();
-        muzzleLight.enabled = false;
+        //muzzleLight = firePos.transform.GetComponent<Light>();
+        //muzzleLight.enabled = false;
         gunOriginPos = gunHolder.transform.localPosition;
         player = GetComponent<PlayerMovement>();
     }

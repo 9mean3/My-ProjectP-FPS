@@ -17,7 +17,7 @@ MonoBehaviour:
   TotalBulletCountInMagazine: 30
   StartTotalBulletCount: 180
   Damage: 25
-  isAuto: 0
+  isAuto: 1
   ReturnTime: 0.1
   RecoilAmount: {x: 0, y: 0, z: 0}
   FireSoundAmount: 0

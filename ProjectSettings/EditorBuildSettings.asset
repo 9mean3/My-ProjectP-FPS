@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/00Scene/Scenes/Office.unity
+    path: Assets/00Scene/Scenes/MainMenu.unity
+    guid: 385c20e4147c8d244a50b8dd1085439e
+  - enabled: 1
+    path: Assets/00Scene/Scenes/Wood.unity
+    guid: 92bbff6078e0f584e87d2c08baabc96b
+  - enabled: 1
+    path: Assets/00Scene/Scenes/Office 11.unity
     guid: c7ec0002e9b573849979a7d08fd41f5b
+  - enabled: 1
+    path: Assets/00Scene/Scenes/Factory.unity
+    guid: 444744ba946ee99428f3dfde328c4ad4
   m_configObjects: {}

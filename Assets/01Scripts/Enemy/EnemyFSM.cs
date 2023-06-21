@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 using Random = UnityEngine.Random;
 
 public class EnemyFSM : MonoBehaviour
@@ -67,6 +68,8 @@ public class EnemyFSM : MonoBehaviour
     {
         if (cEnemyState == EnemyState.Die) return;
         agent.speed = curiousMoveSpeed;
+        if (Vector3.Distance(transform.position, player.transform.position) < 3 && cEnemyState != EnemyState.FindYou)
+            cEnemyState = EnemyState.FindYou;
         print(cEnemyState);
         switch (cEnemyState)
         {

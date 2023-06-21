@@ -190,6 +190,42 @@ MonoBehaviour:
           m_StringArgument: onDie
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1355040645}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1854105764}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1260373937}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   defMoveSpeed: 3
   curiousMoveSpeed: 3
   damage: 10
@@ -283,8 +319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d6de8838664b04bb693e09e20caf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 90
-  viewDistance: 25
+  viewAngle: 70
+  viewDistance: 18
   targetMask:
     serializedVersion: 2
     m_Bits: 64
@@ -295,11 +331,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8141613292975440764}
     m_Modifications:
+    - target: {fileID: 1502212962588186234, guid: fbd1559eb2f1e64458bb4d1e096337fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2298758664588911121, guid: fbd1559eb2f1e64458bb4d1e096337fc,
         type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: fba0b80c5a0488842bc26cfc62a477df, type: 2}
+    - target: {fileID: 3408060627578576489, guid: fbd1559eb2f1e64458bb4d1e096337fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802786917165847301, guid: fbd1559eb2f1e64458bb4d1e096337fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4777519496307008209, guid: fbd1559eb2f1e64458bb4d1e096337fc,
         type: 3}
       propertyPath: m_Name
@@ -383,7 +434,12 @@ PrefabInstance:
     - target: {fileID: 8076483994402325416, guid: fbd1559eb2f1e64458bb4d1e096337fc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566753939338347949, guid: fbd1559eb2f1e64458bb4d1e096337fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8960269868786782735, guid: fbd1559eb2f1e64458bb4d1e096337fc,
         type: 3}
