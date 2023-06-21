@@ -15,7 +15,8 @@ namespace SojaExiles
 		void Start()
 		{
 			open = false;
-		}
+            Player = GameObject.Find("Player").transform;
+        }
 
 		void OnMouseOver()
 		{
@@ -28,7 +29,7 @@ namespace SojaExiles
 						print("object name");
 						if (open == false)
 						{
-							if (Input.GetMouseButtonDown(0))
+							if (Input.GetKeyDown(KeyCode.F))
 							{
 								StartCoroutine(opening());
 							}
@@ -37,7 +38,7 @@ namespace SojaExiles
 						{
 							if (open == true)
 							{
-								if (Input.GetMouseButtonDown(0))
+								if (Input.GetKeyDown(KeyCode.F))
 								{
 									StartCoroutine(closing());
 								}

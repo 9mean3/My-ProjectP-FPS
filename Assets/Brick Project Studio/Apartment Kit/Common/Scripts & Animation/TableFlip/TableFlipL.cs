@@ -10,7 +10,8 @@ public class TableFlipL: MonoBehaviour {
 
 	void Start (){
 		open = false;
-	}
+        Player = GameObject.Find("Player").transform;
+    }
 
 	void OnMouseOver (){
 		{
@@ -18,12 +19,12 @@ public class TableFlipL: MonoBehaviour {
 				float dist = Vector3.Distance (Player.position, transform.position);
 				if (dist < 15) {
 					if (open == false) {
-						if (Input.GetMouseButtonDown (0)) {
+						if (Input.GetKeyDown(KeyCode.F)) {
 							StartCoroutine (opening ());
 						}
 					} else {
 						if (open == true) {
-							if (Input.GetMouseButtonDown (0)) {
+							if (Input.GetKeyDown(KeyCode.F)) {
 								StartCoroutine (closing ());
 							}
 						}
