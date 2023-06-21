@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -35,23 +36,20 @@ public class Tilt : MonoBehaviour
 
         TiltInput();
 
+            target.GetComponent<CinemachineVirtualCamera>().m_Lens.Dutch = curAngle;
         if(curTiltState == TiltState.Idle)
         {
             curAngle = Mathf.Lerp(curAngle, 0, duration);
-            target.localPosition = Vector3.Lerp(target.localPosition, Vector3.zero, duration);
-            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, Vector3.zero, duration);
         }
         if(curTiltState == TiltState.Left)
         {
             curAngle = Mathf.Lerp(curAngle, tiltAngleAmount, duration);
-            target.localPosition = Vector3.Lerp(target.localPosition, new Vector3(-tiltPositionAmount, 0), duration);
-            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0, curAngle), duration);
+
         }
         if (curTiltState == TiltState.Right)
         {
             curAngle = Mathf.Lerp(curAngle, -tiltAngleAmount, duration);
-            target.localPosition = Vector3.Lerp(target.localPosition, new Vector3(tiltPositionAmount, 0), duration);
-            target.localEulerAngles = Vector3.Lerp(target.localEulerAngles, new Vector3(0, 0,   curAngle), duration);
+
         }
     }
 

@@ -27,8 +27,15 @@ public class Projectile : MonoBehaviour
         if (isPlayer)
             if (collision.transform.CompareTag("Enemy"))
             {
-                Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
-                collision.transform.GetComponent<EnemyFSM>().hitEnemy(damage);
+                GameObject p = Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
+                collision.transform.root.GetComponent<EnemyFSM>().hitEnemy(damage);
+                print("hitEnemy");
+            }
+            else if (collision.transform.CompareTag("EnemyHead"))
+            {
+                GameObject p = Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
+                collision.transform.root.GetComponent<EnemyFSM>().hitEnemy(damage*2);
+                print("hitEnemyHead");
             }
             else
             {
@@ -40,6 +47,7 @@ public class Projectile : MonoBehaviour
                 GameObject p = Instantiate(hitEff, transform.position, Quaternion.LookRotation(collision.contacts[0].normal));
                 collision.transform.GetComponent<PlayerHealth>().GetDamage(damage);
                 collision.transform.GetComponent<PlayerHealth>().Damaged.Invoke();
+                print("hitPlayer");
             }
             else
             {

@@ -96,7 +96,8 @@ public class EnemyFSM : MonoBehaviour
     float r = 0;
     private void FindYou()
     {
-        transform.forward = player.position - transform.position;
+        Vector3 dir = player.transform.position - transform.position;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * GetComponent<Ai>().agent.acceleration);
 
         t += Time.deltaTime;
         //print(t);
@@ -118,7 +119,7 @@ public class EnemyFSM : MonoBehaviour
     IEnumerator Attack()
     {
         isFire = true;
-        gunObject.transform.localEulerAngles = new Vector3(Random.Range(-recoilX, recoilX), Random.Range(-recoilY, recoilY));
+        //gunObject.transform.localEulerAngles = new Vector3(Random.Range(-recoilX, recoilX), Random.Range(-recoilY, recoilY));
         print("Attack.");
         RaycastHit hit;
         if (Physics.Raycast(firePos.position, firePos.forward, out hit))

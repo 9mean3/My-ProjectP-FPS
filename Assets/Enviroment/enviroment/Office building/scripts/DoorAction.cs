@@ -11,12 +11,12 @@ public class DoorAction : MonoBehaviour {
 
     void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
           
             RaycastHit hit;
-
-            Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward), out hit);
+            Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward));
+            Physics.Raycast(ray, out hit);
             
                 
                 if (hit.transform.tag == "door")

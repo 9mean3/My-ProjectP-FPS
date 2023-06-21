@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Ai : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
 
     public float radius;
 
@@ -14,12 +14,15 @@ public class Ai : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
     }
-
+    float t = 0;
+    [SerializeField] float moveCD = 3;
     private void Update()
     {
-        if (!agent.hasPath)
+        t += Time.deltaTime;
+        if (t > moveCD)
         {
             agent.SetDestination(GetPoint.Instance.GetRandomPoint(transform, radius));
+            t = 0;
         }
     }
 

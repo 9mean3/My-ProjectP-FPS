@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,16 +37,12 @@ public class GetPoint : MonoBehaviour
 
     public Vector3 GetRandomPoint(Transform point = null, float radius = 0)
     {
-        Vector3 _point;
+        Vector3 randomPos = Random.insideUnitSphere * radius + point.position;
+        NavMeshHit hit;
 
-        if (RandomPoint(point == null ? transform.position : point.position, radius == 0 ? Range : radius, out _point))
-        {
-            Debug.DrawRay(_point, Vector3.up, Color.black, 1);
+        NavMesh.SamplePosition(randomPos, out hit, radius, NavMesh.AllAreas);
 
-            return _point;
-        }
-
-        return point == null ? Vector3.zero : point.position;
+        return hit.position;
     }
 
 #if UNITY_EDITOR
