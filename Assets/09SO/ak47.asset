@@ -18,6 +18,6 @@ MonoBehaviour:
   StartTotalBulletCount: 150
   Damage: 30
   isAuto: 1
-  ReturnTime: 0.12
+  ReturnTime: 0.1
   RecoilAmount: {x: -2, y: 2, z: 0.35}
   FireSoundAmount: 35

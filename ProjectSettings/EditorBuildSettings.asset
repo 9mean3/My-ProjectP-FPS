@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/00Scene/Scenes/Wood.unity
     guid: 92bbff6078e0f584e87d2c08baabc96b
   - enabled: 1
-    path: Assets/00Scene/Scenes/Office 11.unity
+    path: Assets/00Scene/Scenes/Office.unity
     guid: c7ec0002e9b573849979a7d08fd41f5b
   - enabled: 1
     path: Assets/00Scene/Scenes/Factory.unity

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,12 @@ public class GameManager : MonoBehaviour
     public void increaseMsSens()
     {
 
+    }
+
+    public void SetMouseCurser(bool value)
+    {
+        Cursor.visible = value;
+        Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
     }
 
     public void loadScene(string name)

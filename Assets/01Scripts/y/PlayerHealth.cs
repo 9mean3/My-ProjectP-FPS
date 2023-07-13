@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] int maxHP;
     public int curHP;
+
+    [SerializeField] Image bloodImage;
 
     bool isDie;
 
@@ -21,6 +25,19 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void BloodSplatter()
+    {
+        StartCoroutine(BloodSplatterC());
+    }
+
+    IEnumerator BloodSplatterC()
+    {
+        Color blc = bloodImage.color;
+        blc.a = 1;
+        blc.a = Mathf.Lerp(blc.a, 0, 10 * Time.deltaTime);
+        yield return null;
     }
 
     public void GetDamage(int damage)
