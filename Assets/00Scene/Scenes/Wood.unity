@@ -75808,6 +75808,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7263982052660468177, guid: da5fa00a377c6524a9901371c1264929,
+        type: 3}
+      propertyPath: mNoiseOffsets.x
+      value: 240.79883
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263982052660468177, guid: da5fa00a377c6524a9901371c1264929,
+        type: 3}
+      propertyPath: mNoiseOffsets.y
+      value: 129.0282
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263982052660468177, guid: da5fa00a377c6524a9901371c1264929,
+        type: 3}
+      propertyPath: mNoiseOffsets.z
+      value: -88.137726
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263982052660468177, guid: da5fa00a377c6524a9901371c1264929,
+        type: 3}
+      propertyPath: m_FrequencyGain
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7263982053144907672, guid: da5fa00a377c6524a9901371c1264929,
         type: 3}
       propertyPath: zmrecoilX
